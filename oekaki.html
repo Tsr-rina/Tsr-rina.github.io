@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="layout.css">
+        <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    </head>
+
+    <body>
+        <canvas id="myCanvas" width="500" height="500"></canvas>
+        <br>
+        <input id="redpen" class="pb" type="button" value="赤色">
+        <input id="bluepen" class="pb" type="button" value="青色">
+        
+    </body>
+
+    <script>
+        
+             //Stageオブジェクトを作成。表示リストのルートになる
+             var stage = new createjs.Stage("myCanvas");
+
+            //描画をするためのシェイプを作成
+            var shape = new createjs.Shape();
+
+        function paint(color){
+
+            //シェイプをステージに配置
+            var art = stage.addChild(shape);
+
+            //ステージ上でマウスボタンを押したときのイベント設定
+            stage.addEventListener("stagemousedown",handleDown);
+
+            //マウスを押した時に実行される
+            function handleDown(event){
+
+                //線の描画開始
+                shape.graphics.beginStroke(color); //値の色で描画
+
+                //ペンの太さ
+                shape.graphics.setStrokeStyle(5);
+
+                //描画開始位置を指定
+                shape.graphics.moveTo(event.stageX,event.stageY);
+
+                //ステージ上でマウスを動かしたときと離したときのイベント設定
+                stage.addEventListener("stagemousemove", handleMove);
+                stage.addEventListener("stagemouseup", handleUp);
+
+            }
+
+            //マウスが動いたときに実行する
+            function handleMove(event){
+
+                //マウス座標への線を引く
+                shape.graphics.lineTo(event.stageX, event.stageY);
+
+            }
+
+            //マウスボタンが離れたときに実行される
+            function handleUp(event){
+
+                //マウス座標への線を引く
+                shape.graphics.lineTo(event.stageX, event.stageY);
+
+                //線の描画を終了する
+                shape.graphics.endStroke();
+
+                //イベント解除
+                stage.removeEventListener("stagemousemove", handleMove);
+                stage.removeEventListener("stagemouseup", handleUp);
+
+            }
+
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+                createjs.Ticker.addEventListener("tick", onTick);
+                function onTick(){
+                stage.update();
+                }       
+
+        }
+
+
+
+        document.querySelector("#redpen").addEventListener("click",function(){
+
+            var red_pen = "red";
+            
+            paint(red_pen)
+
+        });
+
+        document.querySelector("#bluepen").addEventListener("click",function(){
+
+        var blue_pen = "blue";
+
+        paint(blue_pen)
+
+        });
+
+    </script>
+</html>

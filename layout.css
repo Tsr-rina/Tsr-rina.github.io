@@ -1,0 +1,20 @@
+#myCanvas{
+    border:solid 5px black;
+}
+
+.pb{
+    width:70px;
+    height:70px;
+    border-radius:5px;
+    outline:lightyellow;
+}
+
+#redpen{
+    background-color:red;
+    color:white;     
+}
+
+#bluepen{
+    background-color:blue;
+    color:white;
+}
